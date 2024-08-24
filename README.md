@@ -3,7 +3,6 @@
 ### Linux / MacOS (unix)
 ```
 git clone https://github.com/Kshitij-Kashyap/dotfiles.git && cd dotfiles
-rm -rf .git
 mv nvim ~/.config/ && nvim
 ```
 ## Uninstall
