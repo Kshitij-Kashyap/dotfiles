@@ -1,127 +1,165 @@
-command_timeout = 1000
+format = """\
+[╭╴](fg:arrow)\
+$username\
+$os\
+$git_branch\
+(\
+    at \
+    $directory\
+)\
+$cmd_duration\
+(\
+    via \
+    $python\
+    $conda\
+    $nodejs\
+    $c\
+    $rust\
+    $java\
+)
+[╰─](fg:arrow)$character\
+"""
+# Add the modules you need
+
+# Disable the blank line at the start of the prompt
 add_newline = true
 
-format = """
-[╭─](color2)\
-    [【](color7)\
-      �� (colo9)\
-      $username\
-      [@](color7)\
-      $hostname \
-      $directory\
-    [】](color7)
-[│](color2)\
-    $git_branch\
-    $git_status\
-    $package\
-    $python\
-    $nodejs\
-    $custom
-[╰─](color2)\
-    $memory_usage\
-    $time\
-    $cmd_duration\
-    $shell"""
 
-palette = "pywal"
-[palettes.pywal]
-color0="#0D0C0B"
-color1="#656555"
-color2="#5B5E61"
-color3="#5E6265"
-color4="#67696B"
-color5="#BA593C"
-color6="#907566"
-color7="#cebdac"
-color8="#908478"
-color9="#1793d1"
+palette = "normal"
 
-[memory_usage]
-disabled = false
-symbol = " "
-threshold = -1
-format = " [$symbol$ram](color1)"
+
+[palettes.normal]
+arrow = "#333533"
+os = "#16f4d0"
+os_admin = "#e4ff1a"
+directory = "#9ffff5"
+time = "#bdfffd"
+node = "#a5e6ba"
+git = "#f17f29"
+git_status = "#DFEBED"
+python = "#edf67d"
+conda = "#70e000"
+java = "#F86279"
+rust = "#ffdac6"
+clang = "#caf0f8"
+duration = "#ce4257"
+text_color = "#EDF2F4"
+text_light = "#26272A"
+
+
 
 [username]
-show_always = true
-format = "[$user](color1)"
-
-[hostname]
-ssh_only= false
-format = "[$hostname](color1)"
+style_user = 'bold os'
+style_root = 'bold os_admin'
+format = '[  $user](fg:$style) '
 disabled = false
+show_always = true
 
-[custom.docker]
-command = "echo '  '"
-files = ["Dockerfile", 'docker-compose.yml', "docker-compose.yaml"]
-when = """ comand -v docker &> /dev/null; exit (echo $?); """
-format = " [$output](color7)"
+[os]
+format = "on [($name)]($style) "
+style = "bold blue"
+disabled = true
+
+[os.symbols]
+Alpine = " "
+Arch = " "
+Debian = " "
+EndeavourOS = " "
+Fedora = " "
+Linux = " "
+Macos = " "
+Manjaro = " "
+Mint = " "
+NixOS = " "
+openSUSE = " "
+Pop = " "
+SUSE = " "
+Ubuntu = " "
+Windows = " "
 
 [character]
-success_symbol = " [$shell\\$](color7)"
-error_symbol = " [$shell✖](color7)"
-
-[shell]
-powershell_indicator = "_"
-fish_indicator = "  "
-disabled= false
-
-
-[time]
-disabled = false
-time_format = "%T"
-format = "[ $time](color5)"
-use_12hr = true
+success_symbol = "[󰍟](fg:arrow)"
+error_symbol = "[󰍟](fg:red)"
 
 [directory]
-disabled = false
-read_only = " "
-truncation_length = 4
-truncate_to_repo = false
-format = "[$read_only](color4)[$path](color4) "
-home_symbol = ""
-# [directory.substitution]
-# "~" = ""
+format = "[$path](bold $style)[$read_only]($read_only_style) "
+truncation_length = 2
+style = "fg:directory"
+read_only_style = "fg:directory"
+before_repo_root_style = "fg:directory"
+truncation_symbol = "…/"
+truncate_to_repo = true
+read_only ="  "
+
+[time]
+disabled = true
+format = "at [󱑈 $time]($style)"
+time_format = "%H:%M"
+style = "bold fg:time"
 
 [cmd_duration]
-disabled = false
-min_time = 2000
-show_milliseconds = true
-show_notifications = false
-min_time_to_notify = 45_000
-format = "[ 祥$duration](color3) "
-
-[git_status]
-stashed = " \\(${count}\\) "
-ahead = "ﲗ ${count}"
-behind = "ﲔ ${count}"
-diverged = "李 ${ahead_count} ${behind_count}"
-conflicted = "${count}"
-deleted = " [${count}](color3)"
-renamed = "﫦${count}"
-modified = "[  \\(${count}\\) ](color3)"
-staged = " [ ${count}](color3)"
-untracked = "  \\(${count}\\)"
-format = "([$all_status$ahead_behind](color3)) "
+format = "took [ $duration]($style) "
+style = "bold fg:duration"
+min_time = 500
 
 [git_branch]
-symbol = " "
-format = "[$symbol$branch](color7)"
+format = "via [$symbol$branch]($style) "
+style = "bold fg:git"
+symbol = " "
+
+[git_status]
+format = '[ $all_status$ahead_behind ]($style)'
+style = "fg:text_color bg:git"
+disabled = true
+
+[docker_context]
+disabled=true
+symbol = " "
 
 [package]
-symbol =" "
-display_private = true
-version_format = "v${raw}"
-format = "[$symbol$version](color4)"
+disabled=true
 
-#=== languages ===
+[fill]
+symbol = " "
 
 [nodejs]
-symbol = " 󰎙 "
-format = "[$symbol($version)](color7)"
+format = "[ $symbol$version ]($style)"
+style = "bg:node fg:text_light"
+symbol = " "
+version_format = "${raw}"
+disabled=false
 
 [python]
-symbol = "  "
-pyenv_prefix = 'pyenv '
-python_binary = "python"
-format = '[$symbol$pyenv_prefix$version(\($virtualenv\))](color7)'
+disabled=false
+format = '[ ${symbol}${pyenv_prefix}(${version})( \($virtualenv\)) ]($style)'
+symbol = " "
+version_format = "${raw}"
+style = "bg:python fg:text_light"
+
+[conda]
+format = "[ $symbol$environment ]($style)"
+style = "bg:conda fg:text_light"
+ignore_base = false
+disabled = false
+symbol = " "
+
+[java]
+format = "[ $symbol$version ]($style)"
+style = "bg:java fg:text_light"
+version_format = "${raw}"
+symbol = " "
+disabled = true
+
+[c]
+format = "[ $symbol($version(-$name)) ]($style)"
+style = "bg:clang fg:text_light"
+symbol = " "
+version_format = "${raw}"
+disabled=true
+
+[rust]
+format ="[ $symbol$version ]($style)"
+style = "bg:rust fg:text_light"
+symbol = " "
+version_format = "${raw}"
+disabled=true
