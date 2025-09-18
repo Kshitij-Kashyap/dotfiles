@@ -14,6 +14,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.termguicolors = true
+
+vim.opt.guicursor = "n-v-c:block" -- Ensures a solid block cursor
+vim.cmd("highlight Cursor guibg=#ffffff guifg=#000000") -- Bright white cursor with black text
+
 
 local opts = {}
 
