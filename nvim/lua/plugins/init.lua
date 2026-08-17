@@ -84,14 +84,6 @@ return {
   },
 
   {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 5000,
-      background_colour = "#000000",
-    },
-  },
-
-  {
     "andweeb/presence.nvim",
     event = "VeryLazy"
   },
@@ -112,5 +104,60 @@ return {
         },
       }
     end,
+  },
+
+  {
+    "folke/trouble.nvim",
+    cmd = { "Trouble", "TroubleToggle" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+        },
+      }
+    end,
+  },
+
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      notifier = { enabled = true },
+      indent = { enabled = true },
+    },
+  },
+
+  {
+    "sudo-tee/opencode.nvim",
+    cmd = "Opencode",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {},
   },
 }

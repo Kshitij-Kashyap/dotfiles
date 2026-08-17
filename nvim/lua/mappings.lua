@@ -15,11 +15,11 @@ map("n", "<leader>nn", function()
   if vim.opt.relativenumber:get() then
     vim.opt.relativenumber = false
     vim.opt.number = true
-    print("Absolute numbers only")
+    vim.notify("Absolute numbers only")
   else
     vim.opt.relativenumber = true
     vim.opt.number = true
-    print("Hybrid numbers (absolute + relative)")
+    vim.notify("Hybrid numbers (absolute + relative)")
   end
 end, { desc = "Toggle between absolute and hybrid numbers" })
 
